@@ -16,6 +16,8 @@
 # Sensor driver for ATM702X
 ifeq ($(strip $(BOARD_USES_ACTIONS_SENSOR)), true)
 
+LOCAL_PATH := $(call my-dir)
+
 include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES := \
