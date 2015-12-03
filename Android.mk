@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Sensor driver for ATM702X
-ifeq ($(strip $(BOARD_USES_ACTIONS_SENSOR)), true)
+ifeq ($(BOARD_HAVE_ACTIONS_SENSOR), true)
 
 LOCAL_PATH := $(call my-dir)
 
