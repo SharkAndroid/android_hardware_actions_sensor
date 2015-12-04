@@ -28,8 +28,6 @@
 
 #include "InputEventReader.h"
 
-/*****************************************************************************/
-
 struct input_event;
 
 InputEventCircularReader::InputEventCircularReader(size_t numEvents)
@@ -41,19 +39,17 @@ InputEventCircularReader::InputEventCircularReader(size_t numEvents)
 {
 }
 
-InputEventCircularReader::~InputEventCircularReader()
-{
+InputEventCircularReader::~InputEventCircularReader() {
     delete [] mBuffer;
 }
 
-ssize_t InputEventCircularReader::fill(int fd)
-{
+ssize_t InputEventCircularReader::fill(int fd) {
     size_t numEventsRead = 0;
     if (mFreeSpace) {
         const ssize_t nread = read(fd, mHead, mFreeSpace * sizeof(input_event));
         if (nread<0 || nread % sizeof(input_event)) {
             // we got a partial event!!
-            return nread<0 ? -errno : -EINVAL;
+            return nread < 0 ? -errno : -EINVAL;
         }
 
         numEventsRead = nread / sizeof(input_event);
@@ -71,15 +67,13 @@ ssize_t InputEventCircularReader::fill(int fd)
     return numEventsRead;
 }
 
-ssize_t InputEventCircularReader::readEvent(input_event const** events)
-{
+ssize_t InputEventCircularReader::readEvent(input_event const** events) {
     *events = mCurr;
     ssize_t available = (mBufferEnd - mBuffer) - mFreeSpace;
     return available ? 1 : 0;
 }
 
-void InputEventCircularReader::next()
-{
+void InputEventCircularReader::next() {
     mCurr++;
     mFreeSpace++;
     if (mCurr >= mBufferEnd) {

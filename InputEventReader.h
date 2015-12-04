@@ -22,12 +22,9 @@
 #include <sys/cdefs.h>
 #include <sys/types.h>
 
-/*****************************************************************************/
-
 struct input_event;
 
-class InputEventCircularReader
-{
+class InputEventCircularReader {
     struct input_event* const mBuffer;
     struct input_event* const mBufferEnd;
     struct input_event* mHead;
@@ -41,7 +38,5 @@ public:
     ssize_t readEvent(input_event const** events);
     void next();
 };
-
-/*****************************************************************************/
 
 #endif  // ANDROID_INPUT_EVENT_READER_H

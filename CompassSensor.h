@@ -26,9 +26,6 @@
 #include "SensorBase.h"
 #include "InputEventReader.h"
 
-/*****************************************************************************/
-
-
 struct input_event;
 
 class CompassSensor : public SensorBase {
@@ -44,14 +41,12 @@ class CompassSensor : public SensorBase {
     int mMinDelay;
 
 public:
-            CompassSensor(char* name, float resolution, int minDelay);
+    CompassSensor(char* name, float resolution, int minDelay);
     virtual ~CompassSensor();
     virtual int readEvents(sensors_event_t* data, int count);
     virtual bool hasPendingEvents() const;
     virtual int setDelay(int32_t handle, int64_t ns);
     virtual int enable(int32_t handle, int enabled);
 };
-
-/*****************************************************************************/
 
 #endif  // ANDROID_GYRO_SENSOR_H

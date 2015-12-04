@@ -23,11 +23,8 @@
 #include <sys/select.h>
 #include <cutils/log.h>
 
-
 #include "AccelerationSensor.h"
 
-
-/*****************************************************************************/
 AccelerationSensor::AccelerationSensor(char* name, float resolution, int minDelay)
     : SensorBase(NULL, name),
       mEnabled(0),
@@ -43,30 +40,24 @@ AccelerationSensor::AccelerationSensor(char* name, float resolution, int minDela
     mPendingEvent.sensor = ID_A;
     mPendingEvent.type = SENSOR_TYPE_ACCELEROMETER;
     memset(mPendingEvent.data, 0, sizeof(mPendingEvent.data));
-    	
+        
     if (data_fd) {
         strcpy(input_sysfs_path, "/sys/class/input/");
         strcat(input_sysfs_path, input_name);
         strcat(input_sysfs_path, "/device/");
         input_sysfs_path_len = strlen(input_sysfs_path);
-
         //enable(0, 1);
     }
 }
 
 AccelerationSensor::~AccelerationSensor() {
-
     ALOGD("AccelerationSensor::~AccelerationSensor()");
     if (mEnabled) {
         enable(0, 0);
     }
 }
 
-
-
 int AccelerationSensor::enable(int32_t, int en) {
-
-	   
     ALOGD("AccelerationSensor::~enable(0, %d)", en);
     int flags = en ? 1 : 0;
     if (flags != mEnabled) {
@@ -93,17 +84,14 @@ int AccelerationSensor::enable(int32_t, int en) {
     return 0;
 }
 
-
 bool AccelerationSensor::hasPendingEvents() const {
     /* FIXME probably here should be returning mEnabled but instead
-	mHasPendingEvents. It does not work, so we cheat.*/
+    mHasPendingEvents. It does not work, so we cheat.*/
     //ALOGD("AccelerationSensor::~hasPendingEvents %d", mHasPendingEvent ? 1 : 0 );
     return mHasPendingEvent;
 }
 
-
-int AccelerationSensor::setDelay(int32_t handle, int64_t ns)
-{
+int AccelerationSensor::setDelay(int32_t handle, int64_t ns) {
     ALOGD("AccelerationSensor::~setDelay(%d, %lld)", handle, ns);
 
     int fd;
@@ -124,9 +112,7 @@ int AccelerationSensor::setDelay(int32_t handle, int64_t ns)
     return -1;
 }
 
-
-int AccelerationSensor::readEvents(sensors_event_t* data, int count)
-{
+int AccelerationSensor::readEvents(sensors_event_t* data, int count) {
     //ALOGD("AccelerationSensor::~readEvents() %d", count);
     if (count < 1)
         return -EINVAL;
@@ -144,7 +130,7 @@ int AccelerationSensor::readEvents(sensors_event_t* data, int count)
 
     int numEventReceived = 0;
     input_event const* event;
-	
+    
     while (count && mInputReader.readEvent(&event)) {
         int type = event->type;
         if (type == EV_ABS) {
@@ -170,7 +156,6 @@ int AccelerationSensor::readEvents(sensors_event_t* data, int count)
         mInputReader.next();
     }
  
-	//ALOGD("AccelerationSensor::~readEvents() numEventReceived = %d", numEventReceived);
-	return numEventReceived;
-		
+    //ALOGD("AccelerationSensor::~readEvents() numEventReceived = %d", numEventReceived);
+    return numEventReceived;
 }

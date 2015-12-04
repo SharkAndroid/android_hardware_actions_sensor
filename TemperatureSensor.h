@@ -26,8 +26,6 @@
 #include "SensorBase.h"
 #include "InputEventReader.h"
 
-/*****************************************************************************/
-
 struct input_event;
 
 class TemperatureSensor : public SensorBase {
@@ -43,14 +41,12 @@ class TemperatureSensor : public SensorBase {
     int mMinDelay;
 
 public:
-            TemperatureSensor(char* name, float resolution, int minDelay);
+    TemperatureSensor(char* name, float resolution, int minDelay);
     virtual ~TemperatureSensor();
     virtual int readEvents(sensors_event_t* data, int count);
     virtual bool hasPendingEvents() const;
     virtual int setDelay(int32_t handle, int64_t ns);
     virtual int enable(int32_t handle, int enabled);
 };
-
-/*****************************************************************************/
 
 #endif  // ANDROID_TEMP_SENSOR_H

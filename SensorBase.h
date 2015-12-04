@@ -22,9 +22,6 @@
 #include <sys/cdefs.h>
 #include <sys/types.h>
 
-
-/*****************************************************************************/
-
 struct sensors_event_t;
 
 class SensorBase {
@@ -38,7 +35,6 @@ protected:
     int openInput(const char* inputName);
     static int64_t getTimestamp();
 
-
     static int64_t timevalToNano(timeval const& t) {
         return t.tv_sec*1000000000LL + t.tv_usec*1000;
     }
@@ -47,9 +43,7 @@ protected:
     int close_device();
 
 public:
-            SensorBase(
-                    const char* dev_name,
-                    const char* data_name);
+    SensorBase(const char* dev_name, const char* data_name);
 
     virtual ~SensorBase();
 
@@ -59,7 +53,5 @@ public:
     virtual int setDelay(int32_t handle, int64_t ns);
     virtual int enable(int32_t handle, int enabled) = 0;
 };
-
-/*****************************************************************************/
 
 #endif  // ANDROID_SENSOR_BASE_H

@@ -27,8 +27,6 @@
 
 #define FETCH_FULL_EVENT_BEFORE_RETURN 1
 
-/*****************************************************************************/
-
 GyroSensor::GyroSensor(char* name, float resolution, int minDelay)
     : SensorBase(NULL, name),
       mEnabled(0),
@@ -108,8 +106,7 @@ bool GyroSensor::hasPendingEvents() const {
     return mHasPendingEvent;
 }
 
-int GyroSensor::setDelay(int32_t handle, int64_t ns)
-{
+int GyroSensor::setDelay(int32_t handle, int64_t ns) {
     int fd;
     if (ns < (mMinDelay * 1000000)) {
         ns = (mMinDelay * 1000000); // Minimum on stock
@@ -126,10 +123,10 @@ int GyroSensor::setDelay(int32_t handle, int64_t ns)
     return -1;
 }
 
-int GyroSensor::readEvents(sensors_event_t* data, int count)
-{
-    if (count < 1)
+int GyroSensor::readEvents(sensors_event_t* data, int count) {
+    if (count < 1) {
         return -EINVAL;
+    }
 
     if (mHasPendingEvent) {
         mHasPendingEvent = false;
@@ -178,11 +175,11 @@ again:
        try again instead of returning with nothing and redoing poll. */
     if (numEventReceived == 0 && mEnabled == 1) {
         n = mInputReader.fill(data_fd);
-        if (n)
+        if (n) {
             goto again;
+        }
     }
 #endif
 
     return numEventReceived;
 }
-

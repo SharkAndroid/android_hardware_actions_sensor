@@ -25,8 +25,6 @@
 
 #include "TemperatureSensor.h"
 
-/*****************************************************************************/
-
 TemperatureSensor::TemperatureSensor(char* name, float resolution, int minDelay)
     : SensorBase(NULL, name),
       mEnabled(0),
@@ -59,8 +57,7 @@ TemperatureSensor::~TemperatureSensor() {
     }
 }
 
-int TemperatureSensor::setDelay(int32_t handle, int64_t ns)
-{
+int TemperatureSensor::setDelay(int32_t handle, int64_t ns) {
     ALOGD("TemperatureSensor::~setDelay(%d, %lld)", handle, ns);
     int fd;
     
@@ -80,8 +77,7 @@ int TemperatureSensor::setDelay(int32_t handle, int64_t ns)
     return -1;
 }
 
-int TemperatureSensor::enable(int32_t handle, int en)
-{
+int TemperatureSensor::enable(int32_t handle, int en) {
     ALOGD("TemperatureSensor::~enable(0, %d)", en);
     int flags = en ? 1 : 0;
     if (flags != mEnabled) {
@@ -111,10 +107,10 @@ bool TemperatureSensor::hasPendingEvents() const {
     return mHasPendingEvent;
 }
 
-int TemperatureSensor::readEvents(sensors_event_t* data, int count)
-{
-    if (count < 1)
+int TemperatureSensor::readEvents(sensors_event_t* data, int count) {
+    if (count < 1) {
         return -EINVAL;
+    }
 
     if (mHasPendingEvent) {
         mHasPendingEvent = false;
@@ -124,8 +120,9 @@ int TemperatureSensor::readEvents(sensors_event_t* data, int count)
     }
 
     ssize_t n = mInputReader.fill(data_fd);
-    if (n < 0)
+    if (n < 0) {
         return n;
+    }
 
     int numEventReceived = 0;
     input_event const* event;

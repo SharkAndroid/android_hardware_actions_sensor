@@ -25,8 +25,6 @@
 
 #include "LightSensor.h"
 
-/*****************************************************************************/
-
 LightSensor::LightSensor(char* name, float resolution, int minDelay)
     : SensorBase(NULL, name),
       mEnabled(0),
@@ -59,8 +57,7 @@ LightSensor::~LightSensor() {
     }
 }
 
-int LightSensor::setDelay(int32_t handle, int64_t ns)
-{
+int LightSensor::setDelay(int32_t handle, int64_t ns) {
     ALOGD("LightSensor::~setDelay(%d, %lld)", handle, ns);
     int fd;
     
@@ -80,8 +77,7 @@ int LightSensor::setDelay(int32_t handle, int64_t ns)
     return -1;
 }
 
-int LightSensor::enable(int32_t handle, int en)
-{
+int LightSensor::enable(int32_t handle, int en) {
     ALOGD("LightSensor::~enable(0, %d)", en);
     int flags = en ? 1 : 0;
     if (flags != mEnabled) {
@@ -111,10 +107,10 @@ bool LightSensor::hasPendingEvents() const {
     return mHasPendingEvent;
 }
 
-int LightSensor::readEvents(sensors_event_t* data, int count)
-{
-    if (count < 1)
+int LightSensor::readEvents(sensors_event_t* data, int count) {
+    if (count < 1) {
         return -EINVAL;
+    }
 
     if (mHasPendingEvent) {
         mHasPendingEvent = false;
@@ -124,8 +120,9 @@ int LightSensor::readEvents(sensors_event_t* data, int count)
     }
 
     ssize_t n = mInputReader.fill(data_fd);
-    if (n < 0)
+    if (n < 0) {
         return n;
+    }
 
     int numEventReceived = 0;
     input_event const* event;

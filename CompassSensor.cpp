@@ -23,11 +23,8 @@
 #include <sys/select.h>
 #include <cutils/log.h>
 
-
 #include "CompassSensor.h"
 
-
-/*****************************************************************************/
 CompassSensor::CompassSensor(char* name, float resolution, int minDelay)
     : SensorBase(NULL, name),
       //mEnabled(0),
@@ -48,30 +45,24 @@ CompassSensor::CompassSensor(char* name, float resolution, int minDelay)
     memset(mPendingEvent.data, 0, sizeof(mPendingEvent.data));
     
     ALOGD("CompassSensor::CompassSensor() open data_fd");
-	
+    
     if (data_fd) {
         strcpy(input_sysfs_path, "/sys/class/input/");
         strcat(input_sysfs_path, input_name);
         strcat(input_sysfs_path, "/device/");
         input_sysfs_path_len = strlen(input_sysfs_path);
-
         //enable(0, 1);
     }
 }
 
 CompassSensor::~CompassSensor() {
-
     ALOGD("CompassSensor::~CompassSensor()");
     if (mEnabled) {
         enable(0, 0);
     }
 }
 
-
-
 int CompassSensor::enable(int32_t, int en) {
-
-	   
     ALOGD("CompassSensor::~enable(0, %d)", en);
     int flags = en ? 1 : 0;
     if (flags != mEnabled) {
@@ -99,17 +90,14 @@ int CompassSensor::enable(int32_t, int en) {
     return 0;
 }
 
-
 bool CompassSensor::hasPendingEvents() const {
     /* FIXME probably here should be returning mEnabled but instead
-	mHasPendingEvents. It does not work, so we cheat.*/
+    mHasPendingEvents. It does not work, so we cheat.*/
     //ALOGD("CompassSensor::~hasPendingEvents %d", mHasPendingEvent ? 1 : 0 );
     return mHasPendingEvent;
 }
 
-
-int CompassSensor::setDelay(int32_t handle, int64_t ns)
-{
+int CompassSensor::setDelay(int32_t handle, int64_t ns) {
     ALOGD("CompassSensor::~setDelay(%d, %lld)", handle, ns);
     
     int fd;
@@ -130,9 +118,7 @@ int CompassSensor::setDelay(int32_t handle, int64_t ns)
     return -1;
 }
 
-
-int CompassSensor::readEvents(sensors_event_t* data, int count)
-{
+int CompassSensor::readEvents(sensors_event_t* data, int count) {
     //ALOGD("CompassSensor::~readEvents() %d", count);
     if (count < 1)
         return -EINVAL;
@@ -150,7 +136,7 @@ int CompassSensor::readEvents(sensors_event_t* data, int count)
 
     int numEventReceived = 0;
     input_event const* event;
-	
+    
     while (count && mInputReader.readEvent(&event)) {
         int type = event->type;
         if (type == EV_ABS) {
@@ -176,7 +162,6 @@ int CompassSensor::readEvents(sensors_event_t* data, int count)
         mInputReader.next();
     }
  
-	//ALOGD("CompassSensor::~readEvents() numEventReceived = %d", numEventReceived);
-	return numEventReceived++;
-		
+    //ALOGD("CompassSensor::~readEvents() numEventReceived = %d", numEventReceived);
+    return numEventReceived++;
 }

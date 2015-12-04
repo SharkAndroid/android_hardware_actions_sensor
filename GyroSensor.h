@@ -26,8 +26,6 @@
 #include "SensorBase.h"
 #include "InputEventReader.h"
 
-/*****************************************************************************/
-
 struct input_event;
 
 class GyroSensor : public SensorBase {
@@ -45,14 +43,12 @@ class GyroSensor : public SensorBase {
     int setInitialState();
 
 public:
-            GyroSensor(char* name, float resolution, int minDelay);
+    GyroSensor(char* name, float resolution, int minDelay);
     virtual ~GyroSensor();
     virtual int readEvents(sensors_event_t* data, int count);
     virtual bool hasPendingEvents() const;
     virtual int setDelay(int32_t handle, int64_t ns);
     virtual int enable(int32_t handle, int enabled);
 };
-
-/*****************************************************************************/
 
 #endif  // ANDROID_GYRO_SENSOR_H
