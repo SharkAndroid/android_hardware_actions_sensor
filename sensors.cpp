@@ -411,7 +411,7 @@ sensors_poll_context_t::sensors_poll_context_t() {
                 break;
             case SENSOR_TYPE_MAGNETIC_FIELD:
                 if (mSensors[magnetic] == NULL) {
-                    mSensors[magnetic] = new CompassSensor((char*)ss->reserved[0], s->resolution, ss->minDelay);
+                    mSensors[magnetic] = new CompassSensor((char*)ss->reserved[0], ss->resolution, ss->minDelay);
                     mPollFds[magnetic].fd = mSensors[magnetic]->getFd();
                     mPollFds[magnetic].events = POLLIN;
                     mPollFds[magnetic].revents = 0;
